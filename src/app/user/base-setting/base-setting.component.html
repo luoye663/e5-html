@@ -1,0 +1,36 @@
+<div style="padding:30px;">
+    <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="Key配置">
+                <div>
+                    <nz-input-group nzAddOnBefore="client_id" >
+                        <input type="text" nz-input />
+                    </nz-input-group>
+                    <br>
+                    <nz-input-group nzAddOnBefore="client_secret" class="input">
+                        <input type="text" nz-input/>
+                    </nz-input-group>
+                </div>
+
+                <div class="input">
+                    <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>保存</button>
+
+                    <button nz-button nzType="primary" ><i nz-icon nzType="poweroff"></i>授权</button>
+
+<!--                    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>-->
+<!--                    <button nz-button nzType="primary" (click)="loadTwo()" [nzLoading]="isLoadingTwo"><i nz-icon nzType="poweroff"></i>Click me!</button>-->
+                </div>
+            </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="调用时间范围配置">
+                <p>Card content</p>
+            </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="操作">
+                <p>Card content</p>
+            </nz-card>
+        </div>
+    </div>
+</div>
