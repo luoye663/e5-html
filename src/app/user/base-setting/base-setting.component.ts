@@ -10,6 +10,7 @@ export class BaseSettingComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

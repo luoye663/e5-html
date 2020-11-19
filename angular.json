@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "e5-html"
+  "defaultProject": "e5-html",
+  "cli": {
+    "analytics": false
+  }
 }

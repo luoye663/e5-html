@@ -2,27 +2,41 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import {LoginComponent} from './login/login.component';
-import {HomeComponent} from './home/home.component';
 import {BaseSettingComponent} from './user/base-setting/base-setting.component';
+import {LogComponent} from './user/log/log.component';
+import {UserComponent} from './user/user.component';
+import {IndexComponent} from './index/index.component';
+import {Page404Component} from './component/page404/page404.component';
 
 const routes: Routes = [
-    {
-        path: 'login', component: LoginComponent
-    },
-    {
-        path: 'home', component: HomeComponent
-    },
-    {
-        path: 'user/baseSetting', component: BaseSettingComponent
-    },
-    {
-        path: '**', redirectTo: 'user/baseSetting'
-    }
+  {
+    path: 'index', component: IndexComponent
+  },
+  {
+    path: 'login', component: LoginComponent
+  },
+  {
+    path: 'user', component: UserComponent,
+    children: [
+      {
+        path: 'baseSetting', component: BaseSettingComponent
+      },
+      {
+        path: 'log', component: LogComponent
+      },
+    ]
+  },
+  {
+    path: '404', component: Page404Component
+  },
+  {
+    path: '**', redirectTo: '404'
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

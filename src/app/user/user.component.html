@@ -1,0 +1,24 @@
+<nz-layout>
+  <nz-sider nzWidth="200px" nzTheme="light">
+    <ul nz-menu nzMode="inline" class="sider-menu">
+      <li nz-submenu nzOpen nzIcon="user" nzTitle="设置">
+        <ul>
+          <li nz-menu-item nzSelected routerLink="/user/baseSetting">基础配置</li>
+          <li nz-menu-item  [routerLink]="['/user/log']">日志查看</li>
+          <li nz-menu-item (click)="showMsg()">消息通知(待上线)</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="inner-layout">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+      <nz-breadcrumb-item>List</nz-breadcrumb-item>
+      <nz-breadcrumb-item>App</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <!--内容区-->
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

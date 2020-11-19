@@ -1,5 +1,6 @@
 <div style="padding:30px;">
-    <div nz-row [nzGutter]="8">
+    <div class="card" nz-row [nzGutter]="8">
+        <!--key配置-->
         <div nz-col [nzSpan]="8">
             <nz-card nzTitle="Key配置">
                 <div>
@@ -22,15 +23,26 @@
                 </div>
             </nz-card>
         </div>
+        <!--调用时间配置-->
         <div nz-col [nzSpan]="8">
             <nz-card nzTitle="调用时间范围配置">
-                <p>Card content</p>
+              <nz-input-group nzAddOnBefore="client_secret" class="input">
+                <input type="text" nz-input/>
+              </nz-input-group>
+              <div class="input">
+                <button nz-button nzType="default" ><i nz-icon nzType="poweroff"></i>保存</button>
+              </div>
+              <p style="padding-top: 0.5em">说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</p>
+              <ul>
+                <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
+              </ul>
             </nz-card>
         </div>
-        <div nz-col [nzSpan]="8">
+        <!--操作-->
+        <!--<div nz-col [nzSpan]="8">
             <nz-card nzTitle="操作">
                 <p>Card content</p>
             </nz-card>
-        </div>
+        </div>-->
     </div>
 </div>
