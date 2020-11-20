@@ -32,7 +32,7 @@ import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
 import {HttpClientService} from './service/http-client.service';
-
+import { NzTableModule } from 'ng-zorro-antd/table';
 registerLocaleData(zh);
 
 @NgModule({
@@ -65,7 +65,8 @@ registerLocaleData(zh);
     NzIconModule,
     NzMessageModule,
     NzSpinModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzTableModule
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService],
   bootstrap: [AppComponent]

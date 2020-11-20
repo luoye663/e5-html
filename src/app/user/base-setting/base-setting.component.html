@@ -1,48 +1,73 @@
 <div style="padding:30px;">
-    <div class="card" nz-row [nzGutter]="8">
-        <!--key配置-->
-        <div nz-col [nzSpan]="8">
-            <nz-card nzTitle="Key配置">
-                <div>
-                    <nz-input-group nzAddOnBefore="client_id" >
-                        <input type="text" nz-input />
-                    </nz-input-group>
-                    <br>
-                    <nz-input-group nzAddOnBefore="client_secret" class="input">
-                        <input type="text" nz-input/>
-                    </nz-input-group>
-                </div>
-
-                <div class="input">
-                    <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>保存</button>
-
-                    <button nz-button nzType="primary" ><i nz-icon nzType="poweroff"></i>授权</button>
-
-<!--                    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>-->
-<!--                    <button nz-button nzType="primary" (click)="loadTwo()" [nzLoading]="isLoadingTwo"><i nz-icon nzType="poweroff"></i>Click me!</button>-->
-                </div>
-            </nz-card>
+  <div class="card" nz-row [nzGutter]="8">
+    <!--key配置-->
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Key配置">
+        <div>
+          <nz-input-group nzAddOnBefore="client_id">
+            <input type="text" nz-input/>
+          </nz-input-group>
+          <br>
+          <nz-input-group nzAddOnBefore="client_secret" class="input">
+            <input type="text" nz-input/>
+          </nz-input-group>
         </div>
-        <!--调用时间配置-->
-        <div nz-col [nzSpan]="8">
-            <nz-card nzTitle="调用时间范围配置">
-              <nz-input-group nzAddOnBefore="client_secret" class="input">
-                <input type="text" nz-input/>
-              </nz-input-group>
-              <div class="input">
-                <button nz-button nzType="default" ><i nz-icon nzType="poweroff"></i>保存</button>
-              </div>
-              <p style="padding-top: 0.5em">说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</p>
-              <ul>
-                <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
-              </ul>
-            </nz-card>
+
+        <div class="input">
+          <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>保存</button>
+
+          <button nz-button nzType="primary"><i nz-icon nzType="poweroff"></i>授权</button>
+
+          <!--                    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>-->
+          <!--                    <button nz-button nzType="primary" (click)="loadTwo()" [nzLoading]="isLoadingTwo"><i nz-icon nzType="poweroff"></i>Click me!</button>-->
         </div>
-        <!--操作-->
-        <!--<div nz-col [nzSpan]="8">
-            <nz-card nzTitle="操作">
-                <p>Card content</p>
-            </nz-card>
-        </div>-->
+      </nz-card>
     </div>
+    <!--调用时间配置-->
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="调用时间范围配置">
+        <nz-input-group nzAddOnBefore="client_secret" class="input">
+          <input type="text" nz-input/>
+        </nz-input-group>
+        <div class="input">
+          <button nz-button nzType="default"><i nz-icon nzType="poweroff"></i>保存</button>
+        </div>
+        <p style="padding-top: 0.5em">说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</p>
+        <ul>
+          <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
+        </ul>
+      </nz-card>
+    </div>
+    <!--操作-->
+    <!--<div nz-col [nzSpan]="8">
+        <nz-card nzTitle="操作">
+            <p>Card content</p>
+        </nz-card>
+    </div>-->
+  </div>
+
+  <div>
+    <nz-table #basicTable [nzData]="listOfData">
+      <thead>
+      <tr>
+        <th>客户端ID</th>
+        <th>客户端秘钥</th>
+        <th>调用时间范围</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.name }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.address }}</td>
+        <td>
+          <a>Action 一 {{ data.name }}</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>
