@@ -8,14 +8,15 @@ import {catchError, retry} from 'rxjs/operators';
 })
 export class HttpClientService {
   configUrl = 'assets/config.json';
+
   constructor(private http: HttpClient) {
   }
 
-  getConfig() {
+  getConfig(): any {
     return this.http.get(this.configUrl);
   }
 
-  get(url) {
+  get(url): any {
     return this.http.get(url);
   }
 }

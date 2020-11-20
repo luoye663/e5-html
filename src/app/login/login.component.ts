@@ -11,11 +11,12 @@ import {HttpClientService} from '../service/http-client.service';
 export class LoginComponent implements OnInit {
   isSpin = true;
 
+
   constructor(public route: ActivatedRoute, public router: Router, public http: HttpClientService) {
     route.queryParams.subscribe(value => {
       console.log(value);
     });
-    http.get('https://api.e5.qyi.io/auth2/getGithubUrl').toPromise().then(value => {
+    http.get('https://api.e5.qyi.io/auth2/getGithubUrl').subscribe((value: any) => {
       console.log(value);
       if (value.code === 0) {
         this.isSpin = false;
@@ -33,5 +34,4 @@ export class LoginComponent implements OnInit {
     };
     this.router.navigate(['https://github.com'], navigationExtras);
   }
-
 }

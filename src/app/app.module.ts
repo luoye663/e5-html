@@ -21,15 +21,17 @@ import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {LogComponent} from './user/log/log.component';
 import {NzTimelineModule} from 'ng-zorro-antd/timeline';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { UserComponent } from './user/user.component';
-import { IndexComponent } from './index/index.component';
-import { Page404Component } from './component/page404/page404.component';
-import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import {NzTagModule} from 'ng-zorro-antd/tag';
+import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {UserComponent} from './user/user.component';
+import {IndexComponent} from './index/index.component';
+import {Page404Component} from './component/page404/page404.component';
+import {NzResultModule} from 'ng-zorro-antd/result';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NzMessageModule} from 'ng-zorro-antd/message';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {NzPopoverModule} from 'ng-zorro-antd/popover';
+import {HttpClientService} from './service/http-client.service';
 
 registerLocaleData(zh);
 
@@ -62,9 +64,10 @@ registerLocaleData(zh);
     NzResultModule,
     NzIconModule,
     NzMessageModule,
-    NzSpinModule
+    NzSpinModule,
+    NzPopoverModule
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}],
+  providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
