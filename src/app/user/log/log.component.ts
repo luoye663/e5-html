@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-log',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogComponent implements OnInit {
   reverse = false;
-  constructor() { }
+  radioValue = 'C';
+  constructor(public router: ActivatedRoute) {
+    router.queryParams.subscribe(value => {
+      console.log(value,value['123']);
+    });
+  }
 
   ngOnInit(): void {
   }

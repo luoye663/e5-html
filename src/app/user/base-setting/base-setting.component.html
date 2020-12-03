@@ -1,6 +1,6 @@
 <div style="padding:30px;">
-  <div class="card" nz-row [nzGutter]="8">
-    <!--key配置-->
+  <!--<div class="card" nz-row [nzGutter]="8">
+    &lt;!&ndash;key配置&ndash;&gt;
     <div nz-col [nzSpan]="8">
       <nz-card nzTitle="Key配置">
         <div>
@@ -18,12 +18,12 @@
 
           <button nz-button nzType="primary"><i nz-icon nzType="poweroff"></i>授权</button>
 
-          <!--                    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>-->
-          <!--                    <button nz-button nzType="primary" (click)="loadTwo()" [nzLoading]="isLoadingTwo"><i nz-icon nzType="poweroff"></i>Click me!</button>-->
+          &lt;!&ndash;                    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>&ndash;&gt;
+          &lt;!&ndash;                    <button nz-button nzType="primary" (click)="loadTwo()" [nzLoading]="isLoadingTwo"><i nz-icon nzType="poweroff"></i>Click me!</button>&ndash;&gt;
         </div>
       </nz-card>
     </div>
-    <!--调用时间配置-->
+    &lt;!&ndash;调用时间配置&ndash;&gt;
     <div nz-col [nzSpan]="8">
       <nz-card nzTitle="调用时间范围配置">
         <nz-input-group nzAddOnBefore="client_secret" class="input">
@@ -38,36 +38,128 @@
         </ul>
       </nz-card>
     </div>
-    <!--操作-->
-    <!--<div nz-col [nzSpan]="8">
+    &lt;!&ndash;操作&ndash;&gt;
+    &lt;!&ndash;<div nz-col [nzSpan]="8">
         <nz-card nzTitle="操作">
             <p>Card content</p>
         </nz-card>
-    </div>-->
-  </div>
+    </div>&ndash;&gt;
+  </div>-->
 
   <div>
-    <nz-table #basicTable [nzData]="listOfData">
-      <thead>
-      <tr>
-        <th>客户端ID</th>
-        <th>客户端秘钥</th>
-        <th>调用时间范围</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{ data.name }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
-        <td>
-          <a>Action 一 {{ data.name }}</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>Delete</a>
-        </td>
-      </tr>
-      </tbody>
-    </nz-table>
+    <nz-card nzTitle="配置">
+      <button class="right" nzSize="default" nz-button nzType="primary" (click)="handleNewClient()">
+        <span>新建</span>
+      </button>
+
+      <nz-table #basicTable [nzData]="listOfData">
+        <thead>
+        <tr>
+          <th>名称</th>
+          <th>描述</th>
+          <th>客户端ID</th>
+          <th>客户端秘钥</th>
+          <th>调用时间范围</th>
+          <th>预计下次调用时间</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.describe }}</td>
+          <td>{{ data.client_id }}</td>
+          <td>{{ data.client_secret }}</td>
+          <td>{{ data.time }}</td>
+          <td>{{ data.next_time }}</td>
+          <!--状态-->
+          <td>
+            <nz-tag [nzColor]=data.static_color>{{ data.static }}</nz-tag>
+          </td>
+          <!--操作-->
+          <td>
+            <a>暂停</a>
+            |
+            <a (click)="handleCancel()">配置</a>
+            |
+            <a>日志</a>
+            |
+            <a>删除</a>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+
+  <!--步骤对话框-->
+  <div>
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      [nzTitle]="modalTitle"
+      [nzContent]="modalContent"
+      [nzFooter]="modalFooter"
+      (nzOnCancel)="handleCancel()"
+    >
+      <ng-template #modalTitle>配置信息</ng-template>
+
+      <ng-template #modalContent>
+        <!--步骤-->
+        <nz-steps [nzCurrent]="current">
+          <nz-step nzTitle="设置key"></nz-step>
+          <nz-step nzTitle="子账号授权"></nz-step>
+          <nz-step nzTitle="完成"></nz-step>
+        </nz-steps>
+
+        <div class="steps-content">
+          <!--第一步-->
+          <div *ngIf="current == 0">
+            <nz-input-group nzAddOnBefore="client_id">
+              <input type="text" nz-input/>
+            </nz-input-group>
+            <br>
+            <nz-input-group nzAddOnBefore="client_secret" class="input">
+              <input type="text" nz-input/>
+            </nz-input-group>
+          </div>
+          <!--第一步 授权-->
+          <div *ngIf="current == 1">
+            <div style="color: #ff322a">记得使用子账户且没有敏感邮件</div>
+            <button nzSize="large" nz-button nzType="primary">
+              <span>去授权</span>
+            </button>
+          </div>
+
+        </div>
+      </ng-template>
+
+      <ng-template #modalFooter>
+        <div class="steps-action">
+          <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+            <span>上一步</span>
+          </button>
+          <button nz-button nzType="primary" (click)="next()" *ngIf="current < 2">
+            <span>下一步</span>
+          </button>
+          <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+            <span>完成</span>
+          </button>
+        </div>
+      </ng-template>
+    </nz-modal>
+  </div>
+  <!--新建列表-->
+  <div>
+    <nz-modal [(nzVisible)]="isNewClient" nzTitle="新建" (nzOnCancel)="handleNewClone()" (nzOnOk)="handleNewOK()">
+      <ng-container >
+        名称 <i nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="仅方便标识，无其他作用。"></i>
+        <input nz-input placeholder="名称" [(ngModel)]="newFrom.name" />
+        <br />
+        <br />
+        描述
+        <textarea nz-input placeholder="描述(可空)" [nzAutosize]="{ minRows: 3, maxRows: 5 }" [(ngModel)]="newFrom.describe"></textarea>
+      </ng-container>
+    </nz-modal>
   </div>
 </div>

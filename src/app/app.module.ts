@@ -33,6 +33,11 @@ import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
 import {HttpClientService} from './service/http-client.service';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+
 registerLocaleData(zh);
 
 @NgModule({
@@ -66,7 +71,11 @@ registerLocaleData(zh);
     NzMessageModule,
     NzSpinModule,
     NzPopoverModule,
-    NzTableModule
+    NzTableModule,
+    NzModalModule,
+    NzStepsModule,
+    NzToolTipModule,
+    NzRadioModule
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService],
   bootstrap: [AppComponent]
