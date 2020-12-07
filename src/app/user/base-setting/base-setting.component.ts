@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {StorageService} from '../../service/storage.service';
 
 @Component({
   selector: 'app-base-setting',
@@ -50,11 +51,11 @@ export class BaseSettingComponent implements OnInit {
     describe: ''
   };
 
-  constructor() {
+  constructor(private storage: StorageService) {
+    storage.set('key', '111111111111');
   }
 
   ngOnInit(): void {
-
   }
   handleNewClient(): void {
     this.isNewClient = true;

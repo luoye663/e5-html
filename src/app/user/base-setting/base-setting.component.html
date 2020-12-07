@@ -108,8 +108,8 @@
         <!--步骤-->
         <nz-steps [nzCurrent]="current">
           <nz-step nzTitle="设置key"></nz-step>
+          <nz-step nzTitle="设置调用时间"></nz-step>
           <nz-step nzTitle="子账号授权"></nz-step>
-          <nz-step nzTitle="完成"></nz-step>
         </nz-steps>
 
         <div class="steps-content">
@@ -123,12 +123,29 @@
               <input type="text" nz-input/>
             </nz-input-group>
           </div>
-          <!--第一步 授权-->
+          <!--第二步-->
           <div *ngIf="current == 1">
-            <div style="color: #ff322a">记得使用子账户且没有敏感邮件</div>
-            <button nzSize="large" nz-button nzType="primary">
-              <span>去授权</span>
-            </button>
+            <nz-input-group nzAddOnBefore="范围">
+              <input type="text" nz-input/>
+            </nz-input-group>
+            <div style="color: #ff322a">
+              <br>
+              <ul>
+                <li>说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</li>
+                <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
+              </ul>
+            </div>
+          </div>
+          <!--第三步 授权-->
+          <div *ngIf="current == 2">
+            <div></div>
+            <div style="color: #ff322a">
+              <ul>
+                <li>记得使用子账户且没有敏感邮件</li>
+                <li>如果授权失败请翻译就能大概知道错在哪</li>
+                <li>还是看不懂错误的话请截图+错误页面的url到我的博客留言</li>
+              </ul>
+            </div>
           </div>
 
         </div>
@@ -143,7 +160,7 @@
             <span>下一步</span>
           </button>
           <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
-            <span>完成</span>
+            <span>去授权</span>
           </button>
         </div>
       </ng-template>

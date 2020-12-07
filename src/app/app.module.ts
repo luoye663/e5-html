@@ -37,6 +37,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import {StorageService} from './service/storage.service';
 
 registerLocaleData(zh);
 
@@ -77,7 +78,7 @@ registerLocaleData(zh);
     NzToolTipModule,
     NzRadioModule
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService],
+  providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService, StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

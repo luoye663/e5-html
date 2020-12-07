@@ -10,7 +10,7 @@ import {Page404Component} from './component/page404/page404.component';
 
 const routes: Routes = [
   {
-    path: 'index', component: IndexComponent
+    path: '', component: IndexComponent
   },
   {
     path: 'login', component: LoginComponent
