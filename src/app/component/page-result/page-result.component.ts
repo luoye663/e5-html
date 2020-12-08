@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLinkActive} from '@angular/router';
+import {ActivatedRoute, RouterLinkActive} from '@angular/router';
 
 @Component({
   selector: 'app-page-result',
@@ -8,7 +8,7 @@ import {RouterLinkActive} from '@angular/router';
 })
 export class PageResultComponent implements OnInit {
 
-  constructor(private router: RouterLinkActive) {
+  constructor(private router: ActivatedRoute) {
   }
 
   ngOnInit(): void {
