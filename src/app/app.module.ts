@@ -38,6 +38,9 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import {StorageService} from './service/storage.service';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { PageResultComponent } from './component/page-result/page-result.component';
 
 registerLocaleData(zh);
 
@@ -50,6 +53,7 @@ registerLocaleData(zh);
     UserComponent,
     IndexComponent,
     Page404Component,
+    PageResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,9 @@ registerLocaleData(zh);
     NzModalModule,
     NzStepsModule,
     NzToolTipModule,
-    NzRadioModule
+    NzRadioModule,
+    NzAlertModule,
+    NzNotificationModule
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService, StorageService],
   bootstrap: [AppComponent]
