@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NZ_I18N} from 'ng-zorro-antd/i18n';
 import {zh_CN} from 'ng-zorro-antd/i18n';
-import {registerLocaleData} from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
@@ -32,15 +32,17 @@ import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
 import {HttpClientService} from './service/http-client.service';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzStepsModule } from 'ng-zorro-antd/steps';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
+import {NzTableModule} from 'ng-zorro-antd/table';
+import {NzModalModule} from 'ng-zorro-antd/modal';
+import {NzStepsModule} from 'ng-zorro-antd/steps';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzRadioModule} from 'ng-zorro-antd/radio';
 import {StorageService} from './service/storage.service';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { PageResultComponent } from './component/page-result/page-result.component';
+import {NzAlertModule} from 'ng-zorro-antd/alert';
+import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import {OutlookComponent} from './auth/outlook/outlook.component';
+import {GithubComponent} from './auth/github/github.component';
+import {httpInterceptorProviders} from './http-interceptors/httpInterceptorProviders';
 
 registerLocaleData(zh);
 
@@ -53,7 +55,8 @@ registerLocaleData(zh);
     UserComponent,
     IndexComponent,
     Page404Component,
-    PageResultComponent,
+    OutlookComponent,
+    GithubComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +87,7 @@ registerLocaleData(zh);
     NzAlertModule,
     NzNotificationModule
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}, HttpClientService, StorageService],
+  providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, StorageService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

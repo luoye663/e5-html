@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url): boolean {
+    console.log('守卫', url);
     if (this.storage.get('token') == null) {
       console.log('token不存在');
       this.router.navigate(['/login'], {queryParams: {errorText: '未登陆!'}});
@@ -29,6 +30,8 @@ export class AuthGuard implements CanActivate {
     if (expire == null || expire - (Date.parse(new Date().toISOString()) / 1000) < 0) {
       console.log('到期时间不存在或已到期!', expire, expire - (Date.parse(new Date().toISOString()) / 1000));
       this.router.navigate(['/login'], {queryParams: {errorText: '会话已超时,请重新登录!'}});
+      this.storage.remove('token');
+      this.storage.remove('expire');
       return false;
     }
     return true;

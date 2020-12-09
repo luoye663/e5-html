@@ -1,0 +1,13 @@
+<div class="example">
+  <nz-spin  nzTip="登录中......" *ngIf="isSpinShow"></nz-spin>
+  <nz-result
+    nzStatus="{{info.status}}"
+    nzTitle="{{info.title}}"
+    nzSubTitle="{{info.subTitle}}"
+  >
+    <div nz-result-extra>
+      <button nz-button nzType="primary" routerLink="/user/baseSetting">返回个人中心</button>
+      <!--    <button nz-button>Buy Again</button>-->
+    </div>
+  </nz-result>
+</div>

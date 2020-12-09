@@ -8,7 +8,8 @@ import {UserComponent} from './user/user.component';
 import {IndexComponent} from './index/index.component';
 import {Page404Component} from './component/page404/page404.component';
 import {AuthGuard} from './auth/auth.guard';
-import {PageResultComponent} from './component/page-result/page-result.component';
+import {GithubComponent} from './auth/github/github.component';
+import {OutlookComponent} from './auth/outlook/outlook.component';
 
 const routes: Routes = [
     /*首页*/
@@ -32,9 +33,13 @@ const routes: Routes = [
             },
         ]
     },
-    /*结果页*/
+    /*github授权结果页*/
     {
-        path: 'auth2/receive', component: PageResultComponent
+        path: 'auth2/receive', component: GithubComponent
+    },
+    /*outlook授权结果页*/
+    {
+      path: 'outlook/auth2/receive', component: OutlookComponent
     },
     /*404*/
     {

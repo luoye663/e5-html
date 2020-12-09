@@ -13,7 +13,6 @@ export class LoginComponent implements OnInit {
   isSpin = true;
   errorText = '';
 
-
   constructor(public route: ActivatedRoute, public router: Router, public http: HttpClientService, private notification: NzNotificationService) {
     route.queryParams.subscribe(value => {
       console.log('登录', value);
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit {
         this.createNotification('error', value.errorText);
       }
     });
-    http.get('https://api.e5.qyi.io/auth2/getGithubUrl').subscribe((value: any) => {
+    http.get('/auth2/getGithubUrl').subscribe((value: any) => {
       console.log(value);
       if (value.code === 0) {
         this.isSpin = false;
