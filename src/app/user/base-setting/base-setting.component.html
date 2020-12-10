@@ -81,7 +81,7 @@
           <td>
             <a>暂停</a>
             |
-            <a (click)="handleCancel()">配置</a>
+            <a (click)="handelSetting(data.key)">配置</a>
             |
             <a>日志</a>
             |
@@ -102,6 +102,7 @@
       [nzFooter]="modalFooter"
       (nzOnCancel)="handleCancel()"
       nzWidth="30%"
+      nzMaskClosable="false"
     >
       <ng-template #modalTitle>配置信息</ng-template>
 
@@ -117,17 +118,17 @@
           <!--第一步-->
           <div *ngIf="current == 0">
             <nz-input-group nzAddOnBefore="client_id">
-              <input type="text" nz-input/>
+              <input type="text" [(ngModel)]="stepsInfo.clientId" nz-input/>
             </nz-input-group>
             <br>
             <nz-input-group nzAddOnBefore="client_secret" class="input">
-              <input type="text" nz-input/>
+              <input type="text" [(ngModel)]="stepsInfo.clientSecret" nz-input/>
             </nz-input-group>
           </div>
           <!--第二步-->
           <div *ngIf="current == 1">
             <nz-input-group nzAddOnBefore="范围">
-              <input type="text" nz-input/>
+              <input type="text" [(ngModel)]="stepsInfo.cronTimeRandom" nz-input/>
             </nz-input-group>
             <div style="color: #ff322a">
               <br>
@@ -157,7 +158,7 @@
           <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
             <span>上一步</span>
           </button>
-          <button nz-button nzType="primary" (click)="next()" *ngIf="current < 2">
+          <button nz-button [nzLoading]="stepsInfo.isNextButton" nzType="primary" (click)="next()" *ngIf="current < 2">
             <span>下一步</span>
           </button>
           <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
