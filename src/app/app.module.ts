@@ -43,6 +43,7 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import {OutlookComponent} from './auth/outlook/outlook.component';
 import {GithubComponent} from './auth/github/github.component';
 import {httpInterceptorProviders} from './http-interceptors/httpInterceptorProviders';
+import {MessageService} from './service/message.service';
 
 registerLocaleData(zh);
 
@@ -87,7 +88,7 @@ registerLocaleData(zh);
     NzAlertModule,
     NzNotificationModule
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, StorageService, httpInterceptorProviders],
+  providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {
