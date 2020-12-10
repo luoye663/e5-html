@@ -35,6 +35,9 @@ export class NoopInterceptor implements HttpInterceptor {
                         return;
                     }
                 }
+            },
+            e => {
+                this.msg.createNotification('error', '请求服务端异常,请稍后重试!');
             }
         ));
     }
