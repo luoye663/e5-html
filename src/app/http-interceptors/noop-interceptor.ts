@@ -23,13 +23,10 @@ export class NoopInterceptor implements HttpInterceptor {
             url: 'http://127.0.0.1:8081' + req.url,
             setHeaders: {token: token}
         });
-        return next.handle(httpRequest).pipe(tap(
+        return next.handle(httpRequest);
+        /*return next.handle(httpRequest).pipe(tap(
             event => {
                 if (event instanceof HttpResponse) {
-                    if (event.status !== 200) {
-                        this.msg.createNotification('error', '请求服务端异常');
-                        return;
-                    }
                     if (event.body.code !== 0) {
                         this.msg.createNotification('error', event.body.msg);
                         return;
@@ -37,8 +34,17 @@ export class NoopInterceptor implements HttpInterceptor {
                 }
             },
             e => {
-                this.msg.createNotification('error', '请求服务端异常,请稍后重试!');
+                switch (e.status) {
+                    case 403:
+                        this.msg.createNotification('error', '当前登录用户无权限,请检查会话是否过期!');
+                        break;
+                    case 500:
+                        this.msg.createNotification('error', '服务端出错啦......请联系管理员。');
+                        break;
+                    default:
+                        this.msg.createNotification('error', '请求服务端异常,请稍后重试!');
+                }
             }
-        ));
+        ));*/
     }
 }

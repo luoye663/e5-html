@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {StorageService} from '../../service/storage.service';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from '../../service/message.service';
+import {HttpClientService} from '../../service/http-client.service';
 
 @Component({
     selector: 'app-base-setting',
@@ -32,7 +33,7 @@ export class BaseSettingComponent implements OnInit {
         isNextButton: false
     };
 
-    constructor(private storage: StorageService, private http: HttpClient, private msg: MessageService) {
+    constructor(private storage: StorageService, private http: HttpClientService, private msg: MessageService) {
         this.getOutlookList(false);
     }
 
@@ -41,7 +42,7 @@ export class BaseSettingComponent implements OnInit {
             this.listOfData = [];
         }
         this.isTableLoading = true;
-        this.http.get('/outlook/outlook/getOutlookList').subscribe((value: any) => {
+        this.http.get('/outlook/outlook/getOutlookList', {}, value => {
             value.data.forEach((v: any) => {
                 this.listOfData.push({
                     key: v.id,
@@ -49,7 +50,7 @@ export class BaseSettingComponent implements OnInit {
                     describe: v.describes,
                     client_id: v.clientId,
                     client_secret: v.clientSecret,
-                    static: '运行中',
+                    static: this.getStatus(v.status),
                     static_color: '#87d068',
                     time: v.cronTimeRandomStart + '-' + v.cronTimeRandomEnd,
                     next_time: v.nextTime
@@ -58,6 +59,45 @@ export class BaseSettingComponent implements OnInit {
             // this.listOfData.push();
             this.isTableLoading = false;
         });
+    }
+
+    /*
+    * 状态: 1、等待配置 2、暂停 3、运行中 4、封禁 5、已停止(由于调用错误导致的停止)6、等待授权 7、授权失败
+    * */
+    getStatus(status): string {
+        let val: string;
+        switch (status) {
+            case 1:
+                val = '等待配置';
+                break;
+            case 2:
+                val = '暂停';
+                break;
+            case 3:
+                val = '运行中';
+                break;
+            case 4:
+                val = '封禁';
+                break;
+            case 5:
+                val = '已停止';
+                break;
+            case 6:
+                val = '等待授权';
+                break;
+            case 7:
+                val = '授权失败';
+                break;
+            case 8:
+                val = '配置时间';
+                break;
+            default:
+                val = '未知';
+        }
+        return val;
+    }
+    getStaticColor(status): string{
+        return '';
     }
 
     ngOnInit(): void {
@@ -75,7 +115,7 @@ export class BaseSettingComponent implements OnInit {
     handleNewOK(): void {
         this.OkDisabled = true;
         // this.isNewClient = false;
-        this.http.post('/outlook/outlook/insertOne', {name: this.newFrom.name, describe: this.newFrom.describe}).subscribe((value: any) => {
+        this.http.post('/outlook/outlook/insertOne', {name: this.newFrom.name, describe: this.newFrom.describe}, value => {
             console.log(value);
             if (value.code === 0) {
                 this.msg.createNotification('success', '创建成功!');
@@ -90,9 +130,10 @@ export class BaseSettingComponent implements OnInit {
 
     handelSetting(key): void {
         this.isVisible = true;
-        this.http.get('/outlook/outlook/getOutlookInfo', {params: {id: key}}).subscribe((value: any) => {
+        this.http.get('/outlook/outlook/getOutlookInfo', {params: {id: key}}, value => {
             this.stepsInfo = value.data;
             this.stepsInfo.cronTimeRandom = value.data.cronTimeRandomStart + '-' + value.data.cronTimeRandomEnd;
+            this.current = value.data.step;
         });
         console.log('点击key', key);
     }
@@ -110,6 +151,7 @@ export class BaseSettingComponent implements OnInit {
     next(): void {
         console.log(this.current, this.stepsInfo);
         switch (this.current) {
+            /*保存key*/
             case 0:
                 if (this.stepsInfo.clientId == null ||
                     this.stepsInfo.clientSecret == null ||
@@ -124,12 +166,13 @@ export class BaseSettingComponent implements OnInit {
                         client_id: this.stepsInfo.clientId,
                         client_secret: this.stepsInfo.clientSecret,
                         outlook_id: this.stepsInfo.id
-                    }
-                ).subscribe((value: any) => {
-                    console.log(value);
-                    this.stepsInfo.isNextButton = false;
-                });
+                    }, value => {
+                        console.log(value);
+                        this.current += 1;
+                    });
+                this.setNextButtonStatus(false);
                 break;
+            /*保存时间*/
             case 1:
                 const cronTime = this.stepsInfo.cronTimeRandom.split('-');
                 if (cronTime.length !== 2 || parseInt(cronTime[0], 10) < 1 || parseInt(cronTime[1], 10) < 1) {
@@ -138,20 +181,25 @@ export class BaseSettingComponent implements OnInit {
                 }
                 this.stepsInfo.isNextButton = true;
                 this.http.post('/outlook/outlook/saveRandomTime', {
+                    outlookId: this.stepsInfo.id,
                     cronTime: 0,
                     crondomTime: this.stepsInfo.cronTimeRandom
-                }).subscribe((value: any) => {
+                }, value => {
                     console.log(value);
-                    this.stepsInfo.isNextButton = false;
+                    this.current += 1;
+                    this.changeContent();
                 });
+                this.setNextButtonStatus(false);
                 break;
         }
-        this.current += 1;
-        this.changeContent();
     }
 
     done(): void {
         console.log('done');
+    }
+
+    setNextButtonStatus(v): void {
+        this.stepsInfo.isNextButton = v;
     }
 
     changeContent(): void {
