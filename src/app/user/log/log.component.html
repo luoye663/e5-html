@@ -1,24 +1,20 @@
 <div>
-  <div>
-    <nz-radio-group [(ngModel)]="radioValue">
-      <label nz-radio nzValue="A">E5账户1</label>
-      <label nz-radio nzValue="B">E5账户2</label>
-      <label nz-radio nzValue="C">E5账户3</label>
-      <label nz-radio nzValue="D">E5账户4</label>
-      <label nz-radio nzValue="E">E5账户5</label>
-    </nz-radio-group>
-  </div>
-  <div style="padding-top: 3em">
-    <nz-timeline [nzPending]="'等待调用中......'" nzReverse="true">
-      <nz-timeline-item>2020-11-19 08:17:35 | 读取邮件数量:5
-        <nz-tag [nzColor]="'green'">成功</nz-tag>
-      </nz-timeline-item>
-      <nz-timeline-item>2020-11-19 08:17:35 | 读取邮件数量:5
-        <nz-tag [nzColor]="'green'">成功</nz-tag>
-      </nz-timeline-item>
-      <nz-timeline-item>2020-11-19 08:17:35
-        <nz-tag [nzColor]="'red'" nz-popover nzPopoverTitle="Title" nzPopoverContent="Content">失败</nz-tag>
-      </nz-timeline-item>
-    </nz-timeline>
-  </div>
+    <div>
+        <nz-alert nzType="info" nzMessage="如果出现失败，请将鼠标移到失败的文字上查看详情!"></nz-alert>
+        <br>
+        <nz-radio-group [(ngModel)]="radioValue">
+            <label  nz-radio (click)="handelRadio(item.key)" [nzValue]="item.key"
+                   *ngFor="let item of listOfData">{{item.name}}</label>
+        </nz-radio-group>
+    </div>
+    <div style="padding-top: 3em">
+        <nz-timeline *ngIf="log.length > 0" [nzPending]="'等待调用中......'" nzReverse="true">
+            <nz-timeline-item *ngFor="let item of log">{{item.callTime * 1000| date: 'yyyy-MM-dd HH:mm:ss'}} |
+                <span *ngIf="item.result ===1">&nbsp;{{item.originalMsg}}</span>
+                <nz-tag *ngIf="item.result !==1" [nzColor]="'red'" nz-popover nzPopoverTitle="错误"
+                        nzPopoverContent="{{item.originalMsg}}">失败</nz-tag>
+                &nbsp;<nz-tag *ngIf="item.result ===1" [nzColor]="'green'">成功</nz-tag>
+            </nz-timeline-item>
+        </nz-timeline>
+    </div>
 </div>

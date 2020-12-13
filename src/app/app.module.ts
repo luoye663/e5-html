@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NZ_I18N} from 'ng-zorro-antd/i18n';
 import {zh_CN} from 'ng-zorro-antd/i18n';
-import {DatePipe, registerLocaleData} from '@angular/common';
+import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
@@ -48,48 +48,49 @@ import {MessageService} from './service/message.service';
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    BaseSettingComponent,
-    LogComponent,
-    UserComponent,
-    IndexComponent,
-    Page404Component,
-    OutlookComponent,
-    GithubComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NzButtonModule,
-    NzLayoutModule,
-    NzBreadCrumbModule,
-    NzMenuModule,
-    NzCardModule,
-    NzGridModule,
-    NzInputModule,
-    NzTimelineModule,
-    NzTagModule,
-    NzPopconfirmModule,
-    NzResultModule,
-    NzIconModule,
-    NzMessageModule,
-    NzSpinModule,
-    NzPopoverModule,
-    NzTableModule,
-    NzModalModule,
-    NzStepsModule,
-    NzToolTipModule,
-    NzRadioModule,
-    NzAlertModule,
-    NzNotificationModule
-  ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService, httpInterceptorProviders],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        BaseSettingComponent,
+        LogComponent,
+        UserComponent,
+        IndexComponent,
+        Page404Component,
+        OutlookComponent,
+        GithubComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NzButtonModule,
+        NzLayoutModule,
+        NzBreadCrumbModule,
+        NzMenuModule,
+        NzCardModule,
+        NzGridModule,
+        NzInputModule,
+        NzTimelineModule,
+        NzTagModule,
+        NzPopconfirmModule,
+        NzResultModule,
+        NzIconModule,
+        NzMessageModule,
+        NzSpinModule,
+        NzPopoverModule,
+        NzTableModule,
+        NzModalModule,
+        NzStepsModule,
+        NzToolTipModule,
+        NzRadioModule,
+        NzAlertModule,
+        NzNotificationModule,
+        CommonModule
+    ],
+    providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService, httpInterceptorProviders],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

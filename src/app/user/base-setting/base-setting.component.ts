@@ -51,7 +51,7 @@ export class BaseSettingComponent implements OnInit {
                     client_id: v.clientId,
                     client_secret: v.clientSecret,
                     static: this.getStatus(v.status),
-                    static_color: '#87d068',
+                    static_color: this.getStaticColor(v.status),
                     time: v.cronTimeRandomStart + '-' + v.cronTimeRandomEnd,
                     next_time: v.nextTime
                 });
@@ -63,6 +63,7 @@ export class BaseSettingComponent implements OnInit {
 
     /*
     * 状态: 1、等待配置 2、暂停 3、运行中 4、封禁 5、已停止(由于调用错误导致的停止)6、等待授权 7、授权失败
+    * 8、配置时间
     * */
     getStatus(status): string {
         let val: string;
@@ -96,8 +97,41 @@ export class BaseSettingComponent implements OnInit {
         }
         return val;
     }
-    getStaticColor(status): string{
-        return '';
+
+    getStaticColor(status): string {
+        let val: string;
+        switch (status) {
+            case 1:
+                val = 'default';
+                break;
+            case 2:
+                /*暂停*/
+                val = 'red';
+                break;
+            case 3:
+                /*绿色*/
+                val = 'green';
+                break;
+            case 4:
+                val = '#108ee9';
+                break;
+            case 5:
+                val = 'red';
+                break;
+            case 6:
+                /*等待授权*/
+                val = 'orange';
+                break;
+            case 7:
+                val = '#108ee9';
+                break;
+            case 8:
+                val = 'geekblue';
+                break;
+            default:
+                val = '#108ee9';
+        }
+        return val;
     }
 
     ngOnInit(): void {
@@ -128,6 +162,7 @@ export class BaseSettingComponent implements OnInit {
         });
     }
 
+    /*点击 配置时间*/
     handelSetting(key): void {
         this.isVisible = true;
         this.http.get('/outlook/outlook/getOutlookInfo', {params: {id: key}}, value => {
@@ -136,6 +171,33 @@ export class BaseSettingComponent implements OnInit {
             this.current = value.data.step;
         });
         console.log('点击key', key);
+    }
+
+    /*
+    * 设置暂停状态
+    * */
+    handelSetPause(key): void {
+        this.http.get('/outlook/outlook/setPause', {params: {id: key}}, dvalue => {
+            this.msg.createBasicMessageSuccess('设置成功!');
+            this.getOutlookList(true);
+        });
+    }
+
+    /*
+    * 设置开始状态（待授权）
+    * */
+    handelSetStart(key): void {
+        this.http.get('/outlook/outlook/setStart', {params: {id: key}}, dvalue => {
+            this.msg.createBasicMessageSuccess('设置成功!');
+            this.getOutlookList(true);
+        });
+    }
+
+    handelAuthorize(key): void {
+        this.http.get('/outlook/auth2/getAuthorizeUrl', {params: {id: key}}, value => {
+            console.log(value);
+            window.location.href = value.data;
+        });
     }
 
     handleCancel(): void {
@@ -196,6 +258,7 @@ export class BaseSettingComponent implements OnInit {
 
     done(): void {
         console.log('done');
+        this.handelAuthorize(this.stepsInfo.id);
     }
 
     setNextButtonStatus(v): void {

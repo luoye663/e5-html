@@ -17,7 +17,7 @@ export class HttpClientService {
         return this.http.get(this.configUrl);
     }
 
-    get(url, options, cb?: (dvalue) => any): any {
+    get(url, options, cb?: (value) => any): any {
         /*if (options) {
             options = {};
         }*/

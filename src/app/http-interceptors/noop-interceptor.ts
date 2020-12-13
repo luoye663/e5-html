@@ -17,12 +17,20 @@ export class NoopInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = this.storage.get('token');
-        const httpRequest = req.clone({
-            // url: 'https://api.e5.qyi.io' + req.url
-            url: 'http://127.0.0.1:8081' + req.url,
-            setHeaders: {token: token}
-        });
+        const tokens = this.storage.get('token');
+        let httpRequest;
+        if (tokens) {
+            httpRequest = req.clone({
+                // url: 'https://api.e5.qyi.io' + req.url
+                url: 'http://127.0.0.1:8081' + req.url,
+                setHeaders: {token: tokens}
+            });
+        } else {
+            httpRequest = req.clone({
+                // url: 'https://api.e5.qyi.io' + req.url
+                url: 'http://127.0.0.1:8081' + req.url
+            });
+        }
         return next.handle(httpRequest);
         /*return next.handle(httpRequest).pipe(tap(
             event => {
