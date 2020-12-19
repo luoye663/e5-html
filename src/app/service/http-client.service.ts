@@ -17,13 +17,16 @@ export class HttpClientService {
         return this.http.get(this.configUrl);
     }
 
-    get(url, options, cb?: (value) => any): any {
+    get(url, options, cb?: (value) => any, errorHandel?: (ErrMsg) => any): any {
         /*if (options) {
             options = {};
         }*/
         return this.http.get(url, options).subscribe((value: any) => {
             if (value.code !== 0) {
                 this.msg.createNotification('error', value.msg);
+                if (errorHandel) {
+                    errorHandel(value.msg);
+                }
                 return;
             }
             if (cb) {
@@ -34,11 +37,14 @@ export class HttpClientService {
                 case 403:
                     this.msg.createNotification('error', '当前登录用户无权限,请检查会话是否过期!');
                     break;
+                case 404:
+                    this.msg.createNotification('error', '此接口不存在!');
+                    break;
                 case 500:
                     this.msg.createNotification('error', '服务端出错啦......请联系管理员。');
                     break;
                 default:
-                    this.msg.createNotification('error', '请求服务端异常,请稍后重试!');
+                    this.msg.createNotification('error', '请求服务端异常,请稍后重试! 错误码:' + e.status);
             }
         });
     }

@@ -1,1 +1,43 @@
-<p>index works!</p>
+<div nz-row class="index">
+    <div nz-col nzSpan="24">
+        <article nz-typography>
+            <h1 nz-typography>说明</h1>
+            <ol nz-typography>
+                <li>此程序部署在我的服务器上，每隔2小时会自动调用outlook api 获取邮件列表</li>
+                <li>对于信息: 只会保存必要的 client_id、client_secret，其他任何内容都不会保存，</li>
+                <li>会读取授权的outlook账号邮箱邮件，但不会保存任何信息，仅仅是调用api。</li>
+                <li>请单独创建一个同域 E5 子账号进行授权，不要使用此账号进行发送、接收个人邮件，以免发生误会</li>
+            </ol>
+            <h2 nz-typography>
+                用到技术或框架
+            </h2>
+            <p nz-typography>
+                我们提供完善的设计原则、最佳实践和设计资源文件 （<span nz-typography><code>Sketch</code></span> 和
+                <span nz-typography><code>Axure</code></span
+                >），来帮助业务快速设计出高质 量的产品原型。
+            </p>
+            <div nz-typography>
+                <h3 nz-typography>spring boot</h3>
+                <h3 nz-typography>rabbitMq</h3>
+                <span>
+                    <code>需要安装rabbitmq_delayed_message_exchange插件
+                同时新建一个用户来对接此程序，由于</code>
+                </span>
+                <h3 nz-typography>Redis</h3>
+                <span>默认用1库，可自行在配置文件修改</span>
+                <h3 nz-typography>Mysql5.7</h3>
+                <span>自行导入sql
+                没有写清空日志功能，后面加上。
+                按道理说日志因该存到MongoDB里，所以？</span>
+                <h3 nz-typography>Mybatis Plus</h3>
+                <h3 nz-typography>Spring Security</h3>
+                <span>权限配置由于就那么几个，所以就没写到mysql里面。</span>
+                <h3 nz-typography>log4j2</h3>
+                <span>日志框架</span>
+
+                <h3 nz-typography>Anguale</h3>
+                <p>前端框架</p>
+            </div>
+        </article>
+    </div>
+</div>

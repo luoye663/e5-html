@@ -44,7 +44,7 @@ import {OutlookComponent} from './auth/outlook/outlook.component';
 import {GithubComponent} from './auth/github/github.component';
 import {httpInterceptorProviders} from './http-interceptors/httpInterceptorProviders';
 import {MessageService} from './service/message.service';
-
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 registerLocaleData(zh);
 
 @NgModule({
@@ -87,9 +87,11 @@ registerLocaleData(zh);
         NzRadioModule,
         NzAlertModule,
         NzNotificationModule,
-        CommonModule
+        CommonModule,
+        NzTypographyModule
     ],
-    providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService, httpInterceptorProviders],
+    providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService,
+        httpInterceptorProviders],
     bootstrap: [AppComponent]
 })
 export class AppModule {

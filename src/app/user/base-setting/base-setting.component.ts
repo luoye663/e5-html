@@ -3,6 +3,7 @@ import {StorageService} from '../../service/storage.service';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from '../../service/message.service';
 import {HttpClientService} from '../../service/http-client.service';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
     selector: 'app-base-setting',
@@ -33,7 +34,8 @@ export class BaseSettingComponent implements OnInit {
         isNextButton: false
     };
 
-    constructor(private storage: StorageService, private http: HttpClientService, private msg: MessageService) {
+    constructor(private storage: StorageService, private http: HttpClientService, private msg: MessageService,
+                private modal: NzModalService) {
         this.getOutlookList(false);
     }
 
@@ -138,6 +140,10 @@ export class BaseSettingComponent implements OnInit {
     }
 
     handleNewClient(): void {
+        if (this.listOfData.length > 4) {
+            this.msg.createNotification('error', '目前只允许添加5个应用。');
+            return;
+        }
         this.isNewClient = true;
     }
 
@@ -205,13 +211,42 @@ export class BaseSettingComponent implements OnInit {
         this.getOutlookList(true);
     }
 
+    /*
+    *  获取调用时间
+    * */
+    handelGetNextTime(ids): void {
+        this.http.get('/outlook/auth2/getAuthorizeUrl', {params: {id: ids}}, value => {
+            console.log(value);
+            window.location.href = value.data;
+        });
+    }
+
+    /*
+    * 删除
+    * */
+    handelDelete(outlookId, name): void {
+        this.modal.create({
+            nzTitle: '删除此项',
+            nzContent: '将删除 ' + name + ' ?',
+            nzClosable: false,
+            nzOnOk: () => {
+                this.http.get('/outlook/outlook/delete', {params: {id: outlookId}}, value => {
+                    this.msg.createBasicMessageSuccess('删除成功');
+                    const chat = this;
+                    setTimeout(() => {
+                        this.getOutlookList(true);
+                    }, 1000);
+                });
+            }
+        });
+    }
+
     pre(): void {
         this.current -= 1;
         this.changeContent();
     }
 
     next(): void {
-        console.log(this.current, this.stepsInfo);
         switch (this.current) {
             /*保存key*/
             case 0:

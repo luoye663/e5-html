@@ -12,17 +12,18 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 export class LoginComponent implements OnInit {
     isSpin = true;
     errorText = '';
+    loginUrl = '';
 
-    constructor(public route: ActivatedRoute, public router: Router, public http: HttpClientService, private notification: NzNotificationService) {
+    constructor(public route: ActivatedRoute, public router: Router,
+                public http: HttpClientService, private notification: NzNotificationService) {
         route.queryParams.subscribe(value => {
-            console.log('登录', value);
             this.errorText = value.errorText;
             if (value.errorText != null) {
                 this.createNotification('error', value.errorText);
             }
         });
         http.get('/auth2/getGithubUrl', {}, value => {
-            console.log(value);
+            this.loginUrl = value.data;
             this.isSpin = false;
         });
         // console.log('http返回请求', ht);
@@ -32,10 +33,7 @@ export class LoginComponent implements OnInit {
     }
 
     goGithub(): void {
-        const navigationExtras: NavigationExtras = {
-            queryParams: {tokenc: 'ok'}
-        };
-        this.router.navigate(['https://github.com'], navigationExtras);
+        window.location.href = this.loginUrl;
     }
 
     createNotification(type: string, msg: string): void {

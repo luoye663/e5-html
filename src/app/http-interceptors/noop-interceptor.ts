@@ -22,7 +22,7 @@ export class NoopInterceptor implements HttpInterceptor {
         if (tokens) {
             httpRequest = req.clone({
                 // url: 'https://api.e5.qyi.io' + req.url
-                url: 'http://127.0.0.1:8081' + req.url,
+                url: 'https://127.0.0.1:8081' + req.url,
                 setHeaders: {token: tokens}
             });
         } else {
