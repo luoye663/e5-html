@@ -31,6 +31,9 @@ const routes: Routes = [
             {
                 path: 'log', component: LogComponent
             },
+            {
+                path: 'login', component: LoginComponent
+            },
         ]
     },
     /*github授权结果页*/
