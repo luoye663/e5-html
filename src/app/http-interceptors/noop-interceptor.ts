@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import { environment } from '../../environments/environment';
 import {
     HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
@@ -19,16 +20,18 @@ export class NoopInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const tokens = this.storage.get('token');
         let httpRequest;
+        // console.log(environment.apiUrl);
+        const apiHost = environment.apiUrl;
         if (tokens) {
             httpRequest = req.clone({
                 // url: 'https://api.e5.qyi.io' + req.url
-                url: 'https://127.0.0.1:8081' + req.url,
+                url: apiHost + req.url,
                 setHeaders: {token: tokens}
             });
         } else {
             httpRequest = req.clone({
                 // url: 'https://api.e5.qyi.io' + req.url
-                url: 'http://127.0.0.1:8081' + req.url
+                url: apiHost + req.url
             });
         }
         return next.handle(httpRequest);

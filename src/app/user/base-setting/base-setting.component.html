@@ -5,6 +5,8 @@
                 <span>新建</span>
             </button>
 
+            <button nz-button nzType="primary" (click)="handelDonation(true)">捐赠</button>
+
             <nz-table [nzData]="listOfData" [nzLoading]="isTableLoading" nzTitle="api应用列表">
                 <thead>
                 <tr>
@@ -135,6 +137,29 @@
                 描述
                 <textarea nz-input placeholder="描述(可空)" [nzAutosize]="{ minRows: 3, maxRows: 5 }"
                           [(ngModel)]="newFrom.describe"></textarea>
+            </ng-container>
+        </nz-modal>
+    </div>
+    <div>
+        <nz-modal [(nzVisible)]="donation"
+                  modalFooter=""
+                  nzOkText="不再弹出"
+                  nzCancelText="关闭"
+                  nzWidth="700px"
+                  [nzTitle]="titles"
+                 (nzOnOk)="donationClosePermanent()"
+                  (nzOnCancel)="handelDonation(false)"
+        >
+            <ng-template #titles>捐赠</ng-template>
+            <ng-container>
+                <p>撸代码不易，如果此项目帮助到你的话，请喝杯咖啡吧~~~</p>
+                <p>从此项目自2020年3月上线以来，目前已有6500+个API应用在调用，到目前服务器费用大概花费1000+ </p>
+                <img
+                        width="600px"
+                        height="300px"
+                        src="https://img.qyi.io/2021/01/09/8c060258eb5f0.png"
+                        alt=""
+                />
             </ng-container>
         </nz-modal>
     </div>

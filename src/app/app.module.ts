@@ -88,7 +88,7 @@ registerLocaleData(zh);
         NzAlertModule,
         NzNotificationModule,
         CommonModule,
-        NzTypographyModule
+        NzTypographyModule,
     ],
     providers: [{provide: NZ_I18N, useValue: zh_CN}, DatePipe, HttpClientService, MessageService, StorageService,
         httpInterceptorProviders],

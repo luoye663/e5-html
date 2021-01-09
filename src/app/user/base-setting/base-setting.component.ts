@@ -20,6 +20,7 @@ export class BaseSettingComponent implements OnInit {
     isNewClient = false;
     isTableLoading = true;
     OkDisabled = false;
+    donation = true;
     newFrom = {
         name: '',
         describe: ''
@@ -37,6 +38,9 @@ export class BaseSettingComponent implements OnInit {
     constructor(private storage: StorageService, private http: HttpClientService, private msg: MessageService,
                 private modal: NzModalService) {
         this.getOutlookList(false);
+        if (storage.get('donation')) {
+            this.donation = false;
+        }
     }
 
     getOutlookList(isEmpty): void {
@@ -318,5 +322,17 @@ export class BaseSettingComponent implements OnInit {
                 this.index = 'error';
             }
         }
+    }
+
+    handelDonation(bool): void{
+        if (bool) {
+            this.donation = true;
+        }else {
+            this.donation = false;
+        }
+    }
+    donationClosePermanent(): void{
+        this.donation = false;
+        this.storage.set('donation', 1);
     }
 }
