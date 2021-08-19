@@ -13,7 +13,6 @@ export class StorageService {
 
     get(key): any {
         return localStorage.getItem(key);
-        ;
     }
 
     remove(key): void {

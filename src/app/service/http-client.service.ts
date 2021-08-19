@@ -41,7 +41,7 @@ export class HttpClientService {
                     this.msg.createNotification('error', '此接口不存在!');
                     break;
                 case 500:
-                    this.msg.createNotification('error', '服务端出错啦......请联系管理员。');
+                    this.msg.createNotification('error', '服务端出错啦......请联系管理员。' + e.msg);
                     break;
                 default:
                     this.msg.createNotification('error', '请求服务端异常,请稍后重试! 错误码:' + e.status);

@@ -9,7 +9,7 @@
     </div>
     <div style="padding-top: 3em">
         <nz-timeline *ngIf="log.length > 0" [nzPending]="'等待调用中......'" nzReverse="true">
-            <nz-timeline-item *ngFor="let item of log">{{item.callTime * 1000| date: 'yyyy-MM-dd HH:mm:ss'}} |
+            <nz-timeline-item *ngFor="let item of log">{{item.callTime | date: 'yyyy-MM-dd HH:mm:ss'}} |
                 <span *ngIf="item.result ===1">&nbsp;{{item.originalMsg}}</span>
                 <nz-tag *ngIf="item.result !==1" [nzColor]="'red'" nz-popover nzPopoverTitle="错误"
                         nzPopoverContent="{{item.originalMsg}}">失败</nz-tag>
