@@ -1,167 +1,175 @@
 <div style="padding:30px;">
-    <div>
-        <nz-card nzTitle="配置">
-            <button class="right" nzSize="default" nz-button nzType="primary" (click)="handleNewClient()">
-                <span>新建</span>
-            </button>
+  <div>
+    <nz-card nzTitle="配置">
+      <button class="right" nzSize="default" nz-button nzType="primary" (click)="handleNewClient()">
+        <span>新建应用</span>
+      </button>
 
-            <button nz-button nzType="primary" (click)="handelDonation(true)">捐赠</button>
+      <button nz-button nzType="default" (click)="handelDonation(true)" style="background: #49c932;color: #ffffff">捐赠
+      </button>
+      <button nz-button nzType="default" (click)="getUserReplyUrlToOutlook()"
+              style="background: #473bc9;color: #ffffff">获取回调地址
+      </button>
 
-            <nz-table [nzData]="listOfData" [nzLoading]="isTableLoading" nzTitle="api应用列表">
-                <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>描述</th>
-                    <th>客户端ID</th>
-                    <th>客户端秘钥</th>
-                    <th>调用时间范围</th>
-                    <th>预计下次调用时间</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let data of listOfData">
-                    <td>{{ data.name }}</td>
-                    <td>{{ data.describe }}</td>
-                    <td>{{ data.client_id }}</td>
-                    <td>{{ data.client_secret }}</td>
-                    <td>{{ data.time }}</td>
-                    <td>{{ data.next_time * 1000 | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-                    <!--状态-->
-                    <td>
-                        <nz-tag [nzColor]=data.static_color>{{ data.static }}</nz-tag>
-                    </td>
-                    <!--操作-->
-                    <td>
-                        <a *ngIf="data.static === '暂停'" (click)="handelSetStart(data.key)">开始</a>
-                        <a *ngIf="data.static !== '暂停'" (click)="handelSetPause(data.key)">暂停</a>
-                        |
-                        <a (click)="handelSetting(data.key)">配置</a>
-                        |
-                        <a [routerLink]="['/user/log']" [queryParams]="{id: data.key}">日志</a>
-                        |
-                        <a (click)="handelDelete(data.key,data.name)">删除</a>
-                    </td>
-                </tr>
-                </tbody>
-            </nz-table>
-        </nz-card>
-    </div>
+      <nz-table [nzData]="listOfData" [nzLoading]="isTableLoading" nzTitle="api应用列表">
+        <thead>
+        <tr>
+          <th>名称</th>
+          <th>描述</th>
+          <th>客户端ID</th>
+          <th>客户端秘钥</th>
+          <th>调用时间范围</th>
+          <th>预计下次调用时间</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of listOfData">
+          <td>{{ data.name }}</td>
+          <td>{{ data.describe }}</td>
+          <td>{{ data.client_id }}</td>
+          <td>{{ data.client_secret }}</td>
+          <td>{{ data.time }}</td>
+          <td>{{ data.next_time * 1000 | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+          <!--状态-->
+          <td>
+            <nz-tag [nzColor]=data.static_color>{{ data.static }}</nz-tag>
+          </td>
+          <!--操作-->
+          <td>
+            <a *ngIf="data.static === '暂停'" (click)="handelSetStart(data.key)">开始</a>
+            <a *ngIf="data.static !== '暂停'" (click)="handelSetPause(data.key)">暂停</a>
+            |
+            <a (click)="handelSetting(data.key)">配置</a>
+            |
+            <a [routerLink]="['/user/log']" [queryParams]="{id: data.key}">日志</a>
+            |
+            <a (click)="handelDelete(data.key,data.name)">删除</a>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
 
-    <!--步骤对话框-->
-    <div>
-        <nz-modal
-                [(nzVisible)]="isVisible"
-                [nzTitle]="modalTitle"
-                [nzContent]="modalContent"
-                [nzFooter]="modalFooter"
-                (nzOnCancel)="handleCancel()"
-                nzWidth="30%"
-                nzMaskClosable="false"
-        >
-            <ng-template #modalTitle>配置信息</ng-template>
+  <!--步骤对话框-->
+  <div>
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      [nzTitle]="modalTitle"
+      [nzContent]="modalContent"
+      [nzFooter]="modalFooter"
+      (nzOnCancel)="handleCancel()"
+      nzWidth="30%"
+      nzMaskClosable="false"
+    >
+      <ng-template #modalTitle>配置信息</ng-template>
 
-            <ng-template #modalContent>
-                <!--步骤-->
-                <nz-steps [nzCurrent]="current">
-                    <nz-step nzTitle="设置key"></nz-step>
-                    <nz-step nzTitle="设置调用时间"></nz-step>
-                    <nz-step nzTitle="子账号授权"></nz-step>
-                </nz-steps>
+      <ng-template #modalContent>
+        <!--步骤-->
+        <nz-steps [nzCurrent]="current">
+          <nz-step nzTitle="设置key"></nz-step>
+          <nz-step nzTitle="设置调用时间"></nz-step>
+          <nz-step nzTitle="子账号授权"></nz-step>
+        </nz-steps>
 
-                <div class="steps-content">
-                    <!--第一步-->
-                    <div *ngIf="current == 0">
-                        <nz-input-group nzAddOnBefore="client_id">
-                            <input type="text" [(ngModel)]="stepsInfo.clientId" nz-input/>
-                        </nz-input-group>
-                        <br>
-                        <nz-input-group nzAddOnBefore="client_secret" class="input">
-                            <input type="text" [(ngModel)]="stepsInfo.clientSecret" nz-input/>
-                        </nz-input-group>
-                    </div>
-                    <!--第二步-->
-                    <div *ngIf="current == 1">
-                        <nz-input-group nzAddOnBefore="范围">
-                            <input type="text" [(ngModel)]="stepsInfo.cronTimeRandom" nz-input/>
-                        </nz-input-group>
-                        <div style="color: #ff322a">
-                            <br>
-                            <ul>
-                                <li>说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</li>
-                                <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--第三步 授权-->
-                    <div *ngIf="current == 2">
-                        <div></div>
-                        <div style="color: #ff322a">
-                            <ul>
-                                <li>记得使用子账户且没有敏感邮件</li>
-                                <li>如果授权失败请翻译就能大概知道错在哪</li>
-                                <li>还是看不懂错误的话请截图+错误页面的url到我的博客留言</li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="steps-content">
+          <!--第一步-->
+          <div *ngIf="current == 0">
+            <nz-input-group nzAddOnBefore="应用程序(客户端) ID">
+              <input type="text" [(ngModel)]="stepsInfo.clientId" nz-input/>
+            </nz-input-group>
+            <br>
+            <nz-input-group nzAddOnBefore="客户端密码" class="input">
+              <input type="text" [(ngModel)]="stepsInfo.clientSecret" nz-input/>
+            </nz-input-group>
 
-                </div>
-            </ng-template>
+            <nz-input-group nzAddOnBefore="租户ID" class="input">
+              <input type="text" [(ngModel)]="stepsInfo.tenantId" nz-input/>
+            </nz-input-group>
+          </div>
+          <!--第二步-->
+          <div *ngIf="current == 1">
+            <nz-input-group nzAddOnBefore="范围">
+              <input type="text" [(ngModel)]="stepsInfo.cronTimeRandom" nz-input/>
+            </nz-input-group>
+            <div style="color: #ff322a">
+              <br>
+              <ul>
+                <li>说明：单位 秒（最低调用频率为 60 秒,最高为6小时）</li>
+                <li>范围，例如: 30-60,代表在30秒-60秒之间随机调用一次</li>
+              </ul>
+            </div>
+          </div>
+          <!--第三步 授权-->
+          <div *ngIf="current == 2">
+            <div></div>
+            <div style="color: #ff322a">
+              <ul>
+                <li>记得使用子账户且没有敏感邮件</li>
+                <li>如果授权失败请翻译就能大概知道错在哪</li>
+                <li>还是看不懂错误的话请截图+错误页面的url到我的博客留言</li>
+              </ul>
+            </div>
+          </div>
 
-            <ng-template #modalFooter>
-                <div class="steps-action">
-                    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-                        <span>上一步</span>
-                    </button>
-                    <button nz-button [nzLoading]="stepsInfo.isNextButton" nzType="primary" (click)="next()"
-                            *ngIf="current < 2">
-                        <span>下一步</span>
-                    </button>
-                    <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
-                        <span>去授权</span>
-                    </button>
-                </div>
-            </ng-template>
-        </nz-modal>
-    </div>
-    <!--新建列表-->
-    <div>
-        <nz-modal [(nzVisible)]="isNewClient" [nzOkDisabled]="OkDisabled" nzMaskClosable="false" nzTitle="新建"
-                  (nzOnCancel)="handleNewClone()" (nzOnOk)="handleNewOK()">
-            <ng-container>
-                名称 <i nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="仅方便标识，无其他作用。"></i>
-                <input nz-input placeholder="名称" [(ngModel)]="newFrom.name"/>
-                <br/>
-                <br/>
-                描述
-                <textarea nz-input placeholder="描述(可空)" [nzAutosize]="{ minRows: 3, maxRows: 5 }"
-                          [(ngModel)]="newFrom.describe"></textarea>
-            </ng-container>
-        </nz-modal>
-    </div>
-    <div>
-        <nz-modal [(nzVisible)]="donation"
-                  modalFooter=""
-                  nzOkText="不再弹出"
-                  nzCancelText="关闭"
-                  nzWidth="700px"
-                  [nzTitle]="titles"
-                 (nzOnOk)="donationClosePermanent()"
-                  (nzOnCancel)="handelDonation(false)"
-        >
-            <ng-template #titles>捐赠</ng-template>
-            <ng-container>
-                <p>撸代码不易，如果此项目帮助到你的话，请喝杯咖啡吧~~~</p>
-                <p>从此项目自2020年3月上线以来，目前已有6500+个API应用在调用，到目前服务器大概花费1000+ </p>
-                <p><a href="https://docs.qq.com/sheet/DVUlnbGZ3c0lVeVJ2?tab=BB08J2" target="_blank">捐赠列表</a> 时间排序，感谢各位的支持~</p>
-                <img
-                        width="600px"
-                        height="300px"
-                        src="https://img.qyi.io/2021/01/09/8c060258eb5f0.png"
-                        alt=""
-                />
-            </ng-container>
-        </nz-modal>
-    </div>
+        </div>
+      </ng-template>
+
+      <ng-template #modalFooter>
+        <div class="steps-action">
+          <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+            <span>上一步</span>
+          </button>
+          <button nz-button [nzLoading]="stepsInfo.isNextButton" nzType="primary" (click)="next()"
+                  *ngIf="current < 2">
+            <span>下一步</span>
+          </button>
+          <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+            <span>去授权</span>
+          </button>
+        </div>
+      </ng-template>
+    </nz-modal>
+  </div>
+  <!--新建列表-->
+  <div>
+    <nz-modal [(nzVisible)]="isNewClient" [nzOkDisabled]="OkDisabled" nzMaskClosable="false" nzTitle="新建"
+              (nzOnCancel)="handleNewClone()" (nzOnOk)="handleNewOK()">
+      <ng-container>
+        名称 <i nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="仅方便标识，无其他作用。"></i>
+        <input nz-input placeholder="名称" [(ngModel)]="newFrom.name"/>
+        <br/>
+        <br/>
+        描述
+        <textarea nz-input placeholder="描述(可空)" [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+                  [(ngModel)]="newFrom.describe"></textarea>
+      </ng-container>
+    </nz-modal>
+  </div>
+  <div>
+    <nz-modal [(nzVisible)]="donation"
+              modalFooter=""
+              nzOkText="不再弹出"
+              nzCancelText="关闭"
+              nzWidth="700px"
+              [nzTitle]="titles"
+              (nzOnOk)="donationClosePermanent()"
+              (nzOnCancel)="handelDonation(false)"
+    >
+      <ng-template #titles>捐赠</ng-template>
+      <ng-container>
+        <p>撸代码不易，如果此项目帮助到你的话，请喝杯咖啡吧~~~</p>
+        <p>从此项目自2020年3月上线以来，目前已有6500+个API应用在调用，到目前服务器大概花费1000+ </p>
+        <p><a href="https://docs.qq.com/sheet/DVUlnbGZ3c0lVeVJ2?tab=BB08J2" target="_blank">捐赠列表</a> 时间排序，感谢各位的支持~</p>
+        <img
+          width="600px"
+          height="300px"
+          src="https://img.qyi.io/2021/01/09/8c060258eb5f0.png"
+          alt=""
+        />
+      </ng-container>
+    </nz-modal>
+  </div>
 </div>

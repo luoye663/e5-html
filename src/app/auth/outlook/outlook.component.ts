@@ -41,7 +41,9 @@ export class OutlookComponent implements OnInit {
             code: this.subInfo.code,
             state: this.subInfo.state
         };
-        http.get('/outlook/auth2/receive', {params: data}, value => {
+        const userId = this.route.snapshot.params.userId;
+        console.log('userid:', userId);
+        http.get('/outlook/auth2/' + userId + '/receive', {params: data}, value => {
             console.log(value);
             this.info.status = 'success';
             this.info.title = '授权成功!';

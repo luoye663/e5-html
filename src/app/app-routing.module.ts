@@ -42,6 +42,9 @@ const routes: Routes = [
     },
     /*outlook授权结果页*/
     {
+      path: 'outlook/auth2/:userId/receive', component: OutlookComponent
+    },
+    {
       path: 'outlook/auth2/receive', component: OutlookComponent
     },
     /*404*/
