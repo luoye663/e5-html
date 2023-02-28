@@ -43,11 +43,11 @@ export class BaseSettingComponent implements OnInit {
     if (storage.get('donation')) {
       this.donation = false;
     }
-    this.modal.create({
+    /*this.modal.create({
       nzTitle: '关于续订程序出现授权出错问题',
       nzContent: '程序已更新，请查看最新的教程，弹窗于一周后自动关闭: https://qyi.io/archives/687.html',
       nzClosable: false,
-    });
+    });*/
   }
 
   getOutlookList(isEmpty): void {
